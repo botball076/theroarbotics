@@ -1,9 +1,16 @@
 #include <kipr/wombat.h>
 
-void drive(int left_speed, int right_speed, int time)
+	int left_motor = 1;
+    int right_motor = 0;
+    int analog_sensor = 5;
+    int servo = 1;
+    int down = 2047;
+    int up = 167;
+
+void drive_time(int left_speed, int right_speed, int time)
 {     
-	motor(1, left_speed);
-	motor(2, right_speed);
+	motor(left_motor, left_speed);
+	motor(right_motor, right_speed);
     msleep(time);  
 }
 
@@ -15,15 +22,6 @@ int main()
     //wait_for_light(0);
     shut_down_in(112);
     
-    
-    
-    int left_motor = 1;
-    int right_motor = 0;
-    int analog_sensor = 5;
-    int servo = 1;
-    int down = 2047;
-    int up = 167;
-    
     //Blue cup & follow the black line mission
     
     enable_servo(servo);
@@ -32,20 +30,13 @@ int main()
     set_servo_position(servo,up);
     
      //forward
-    motor(left_motor,100);
-    motor(right_motor,100);
-    msleep(1500);
-    //1150
+     drive_time(100,100,1500);
     
     //turning right
-    motor (left_motor,200);
-    motor (right_motor,0);
-    msleep (2000);
+    drive_time(200,0,2000);
     
     //stop
-    motor(left_motor,0);
-    motor(right_motor,0);
-    msleep (1000);
+    drive_time(0,0,1000);
     
     //resets right motor
     cmpc(right_motor);
@@ -72,51 +63,35 @@ int main()
         }
    	 }
     
-    motor (left_motor,100);
-    motor (right_motor,0);
-    msleep (200);
+    drive_time(100,0,200);
     
     //stop
-    motor (left_motor,0);
-    motor (right_motor,0);
-    msleep (1000);
+    drive_time(0,0,1000);
     
     //servo down
     set_servo_position(servo, down);
     
     //stop
-    motor (left_motor,0);
-    motor (right_motor,0);
-    msleep (1000);
+    drive_time(0,0,1000);
     
-    //backs up for it not to get stuck 
-    motor (left_motor,-100);
-    motor (right_motor,-100);
-    msleep (200);
+    //backs up for it not to get stuck
+    drive_time(-100,-100,200);
      
     //attempt to drag blue cup
    
     //stop
-    motor (left_motor, 0);
-    motor (right_motor, 0);
-    msleep (200);
-    	
+    drive_time(0,0,200);
+   
     //turns to go get ping pongs
     
     //turn right
-    motor (left_motor, 0);
-    motor (right_motor, 100);
-    msleep (3600);
+    drive_time(0,100,3600);
     
     //forward
-    motor (left_motor, 100);
-    motor (right_motor, 100);
-    msleep (1800);
+    drive_time(100,100,1800);
     
     //turn left
-    motor (left_motor, 100);
-    motor (right_motor, 0);
-    msleep (800);
+    drive_time(100,0,800);
     
     cmpc (right_motor);
     
@@ -144,14 +119,11 @@ int main()
     //claw up
     set_servo_position(servo,up);
     
-    motor (left_motor, 100);
-    motor (right_motor, 70);
-    msleep (3000);
+    //turning right
+    drive_time(100,70,3000);
     
     //stop
-    motor (left_motor, 0);
-    motor (right_motor, 0);
-    msleep (300);
+    drive_time(0,0,300);
     
     //motor reset
     cmpc (right_motor);
@@ -182,27 +154,19 @@ int main()
     set_servo_position(servo,0);
     
     //forward for pings pongs
-    motor (left_motor, 100);
-    motor (right_motor, 80);
-    msleep (1425);
-    
+    drive_time(100,80,1425);
+   
     //wait for ping pongs
-    motor (left_motor, 0);
-    motor (right_motor, 0);
-    msleep (15000);
+    drive_time(0,0,15000);
     
-    //back up to turn to lab
-    motor (left_motor, -100);
-    motor (right_motor, -100);
-    msleep(1200);
+    //backs up to turn to lab
+    drive_time(-100,-100,1200);
     
-    motor (left_motor, 0);
-    motor (right_motor, 100);
-    msleep(3000);
+    //turns left
+    drive_time(0,100,3000);
     
-    motor (left_motor, 100);
-    motor (right_motor, 100);
-    msleep(2000);
+    //forward
+    drive_time(100,100,2000);
       
     return 0;
   }
