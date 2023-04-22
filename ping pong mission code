@@ -1,0 +1,208 @@
+#include <kipr/wombat.h>
+
+void drive(int left_speed, int right_speed, int time)
+{     
+	motor(1, left_speed);
+	motor(2, right_speed);
+    msleep(time);  
+}
+
+int main()  
+{
+    
+    //go foward, turn left if it sees red//
+    
+    //wait_for_light(0);
+    shut_down_in(112);
+    
+    
+    
+    int left_motor = 1;
+    int right_motor = 0;
+    int analog_sensor = 5;
+    int servo = 1;
+    int down = 2047;
+    int up = 167;
+    
+    //Blue cup & follow the black line mission
+    
+    enable_servo(servo);
+    
+     //lift the servo
+    set_servo_position(servo,up);
+    
+     //forward
+    motor(left_motor,100);
+    motor(right_motor,100);
+    msleep(1500);
+    //1150
+    
+    //turning right
+    motor (left_motor,200);
+    motor (right_motor,0);
+    msleep (2000);
+    
+    //stop
+    motor(left_motor,0);
+    motor(right_motor,0);
+    msleep (1000);
+    
+    //resets right motor
+    cmpc(right_motor);
+        
+    //line follow
+    //put when distance sensor sees the white 
+
+    while(gmpc(right_motor) < 6500)
+    { 
+        printf("help me get bubble wand");
+        //tophat senses black line
+       if (analog(analog_sensor) > 1500)
+       {
+           //turn right
+           motor (left_motor,0);
+           motor (right_motor,100);
+       }
+        //tophat senses white
+        else 
+        {
+            //turn left
+            motor (left_motor,100);
+            motor (right_motor,0);
+        }
+   	 }
+    
+    motor (left_motor,100);
+    motor (right_motor,0);
+    msleep (200);
+    
+    //stop
+    motor (left_motor,0);
+    motor (right_motor,0);
+    msleep (1000);
+    
+    //servo down
+    set_servo_position(servo, down);
+    
+    //stop
+    motor (left_motor,0);
+    motor (right_motor,0);
+    msleep (1000);
+    
+    //backs up for it not to get stuck 
+    motor (left_motor,-100);
+    motor (right_motor,-100);
+    msleep (200);
+     
+    //attempt to drag blue cup
+   
+    //stop
+    motor (left_motor, 0);
+    motor (right_motor, 0);
+    msleep (200);
+    	
+    //turns to go get ping pongs
+    
+    //turn right
+    motor (left_motor, 0);
+    motor (right_motor, 100);
+    msleep (3600);
+    
+    //forward
+    motor (left_motor, 100);
+    motor (right_motor, 100);
+    msleep (1800);
+    
+    //turn left
+    motor (left_motor, 100);
+    motor (right_motor, 0);
+    msleep (800);
+    
+    cmpc (right_motor);
+    
+    //goes back towards the black line
+        while(gmpc(right_motor) < 2900)
+    { 
+        printf("%d",gmpc(right_motor));
+        //tophat senses black line
+       if (analog(analog_sensor) > 1500)
+       {
+           //turn right
+           
+           motor (left_motor,100);
+           motor (right_motor,0);
+       }
+        //tophat senses white
+        else 
+        {
+            //turn left
+            motor (left_motor,0);
+            motor (right_motor,100);
+        }
+    }
+    
+    //claw up
+    set_servo_position(servo,up);
+    
+    motor (left_motor, 100);
+    motor (right_motor, 70);
+    msleep (3000);
+    
+    //stop
+    motor (left_motor, 0);
+    motor (right_motor, 0);
+    msleep (300);
+    
+    //motor reset
+    cmpc (right_motor);
+    
+    //linefollowing after 1 sec of passing the cross
+    
+    while(gmpc(right_motor) < 6800)
+    { 
+        printf("%d/n",gmpc(right_motor));
+        //tophat senses black line
+       if (analog(analog_sensor) > 1500)
+       {
+           //turn right
+           
+           motor (left_motor,100);
+           motor (right_motor,0);
+       }
+        //tophat senses white
+        else 
+        {
+            //turn left
+            motor (left_motor,0);
+            motor (right_motor,100);
+        }
+    }
+    
+    //servo up
+    set_servo_position(servo,0);
+    
+    //forward for pings pongs
+    motor (left_motor, 100);
+    motor (right_motor, 80);
+    msleep (1425);
+    
+    //wait for ping pongs
+    motor (left_motor, 0);
+    motor (right_motor, 0);
+    msleep (15000);
+    
+    //back up to turn to lab
+    motor (left_motor, -100);
+    motor (right_motor, -100);
+    msleep(1200);
+    
+    motor (left_motor, 0);
+    motor (right_motor, 100);
+    msleep(3000);
+    
+    motor (left_motor, 100);
+    motor (right_motor, 100);
+    msleep(2000);
+      
+    return 0;
+  }
