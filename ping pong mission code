@@ -7,6 +7,15 @@
     int down = 2047;
     int up = 167;
 
+void drive_ticks(int left_speed, int right_speed, int left_ticks, int right_ticks)
+{
+	cmpc(right_motor);
+	while (gmpc(right_motor,left_motor) < right_ticks,left)
+	{
+		motor (left_motor, left_speed);
+        motor (right_motor, right_speed);
+	}
+}
 void drive_time(int left_speed, int right_speed, int time)
 {     
 	motor(left_motor, left_speed);
